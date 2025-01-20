@@ -5,8 +5,6 @@ export const PageContainer = styled.div`
     flex-wrap: wrap;
     grid-gap: 60px;
     justify-content: start;
-    padding-left: 75px;
-    padding-top: 20px;
-    padding-right: 75px;
-
+    width: 90%;
+    margin-left: 75px;
 `;

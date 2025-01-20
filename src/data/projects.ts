@@ -27,8 +27,6 @@ const initialProjectsData = [
         imageUrl: naruto_project,
     },
 
-
-
 ];
 
 export const projects: Project[] = initialProjectsData.map((p) => ({

@@ -13,6 +13,6 @@ export const ProjectLink = styled.a`
 
 
     &:hover {
-        background-color: #615050;
+        background-color: #130d0f;
     }
 `;
