@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { Project } from "@/types/Project.ts";
-import { PageContainer } from "@/styles/ProjectsStyle/PageContainer.tsx"
-import { Card } from "@/styles/ProjectsStyle/Card.tsx";
-import { ProjectTitle } from "@/styles/ProjectsStyle/ProjectTitle.tsx";
-import { ProjectDescription } from "@/styles/ProjectsStyle/ProjectDescription.tsx";
+import { Project } from "@ types/Project.ts";
+import { PageContainer } from "@ styles/ProjectsStyle/PageContainer.tsx"
+import { Card } from "@ styles/ProjectsStyle/Card.tsx";
+import { ProjectTitle } from "@ styles/ProjectsStyle/ProjectTitle.tsx";
+import { ProjectDescription } from "@ styles/ProjectsStyle/ProjectDescription.tsx";
 import { ProjectImage } from '@ styles/ProjectsStyle/ProjectImage.tsx';
 import { ProjectTechnologies } from '@ styles/ProjectsStyle/ProjectTechnologies.tsx';
 import { TechnologyItem } from '@ styles/ProjectsStyle/TechnologyItem.tsx';

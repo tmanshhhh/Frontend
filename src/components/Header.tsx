@@ -12,6 +12,7 @@ export const Header: React.FC = () => {
                 <LinkStyle to="/skills">Skills</LinkStyle>
                 <LinkStyle to="/projects">Projects</LinkStyle>
                 <LinkStyle to="/contact">Contacts</LinkStyle>
+                <LinkStyle to="/github-repositories">GitHub repositories</LinkStyle>
             </Nav>
         </HeaderContainer>
     );

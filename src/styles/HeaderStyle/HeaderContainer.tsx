@@ -7,7 +7,8 @@ export const HeaderContainer = styled.header`
     align-items: self-end;
     position: fixed;
     top: -1px;
-    padding: 0.5rem 22.5rem;
+    width: 85%;
+    padding: 10px 110px;
     background-color: #f7f5f1;
     
 `;
