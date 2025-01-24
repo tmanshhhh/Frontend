@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { PageContainer } from "@ styles/ContactStyle/PageContainer.tsx"
 import {ContactForm} from "@ styles/ContactStyle/ContactForm.tsx";
 import {Title} from "@ styles/ContactStyle/ContactForm.tsx";
 import {Label} from "@ styles/ContactStyle/Label.tsx";
@@ -7,6 +8,7 @@ import {Textarea} from "@ styles/ContactStyle/TextArea.tsx";
 import {Button} from "@ styles/ContactStyle/Button.tsx";
 import {ErrorMessage} from "@ styles/ContactStyle/ErrorMessage.tsx";
 import {SuccessMessage} from "@ styles/ContactStyle/SuccessMessage.tsx";
+import { motion } from 'framer-motion';
 
 interface FormData {
     name: string;
@@ -49,28 +51,37 @@ export const Contact: React.FC = () => {
     };
 
     return (
-        <div>
-            <Title>Обратная связь</Title>
-            {isSubmitted && <SuccessMessage>Спасибо за ваше сообщение, обратная связь очень важна для меня!</SuccessMessage>}
-            <ContactForm onSubmit={handleSubmit}>
-                <div>
-                    <Label htmlFor="name">Имя:</Label>
-                    <Input type="text" id="name" name="name" value={formData.name} onChange={handleChange} />
-                    {errors.name && <ErrorMessage>{errors.name}</ErrorMessage>}
-                </div>
-                <div>
-                    <Label htmlFor="email">Email:</Label>
-                    <Input type="email" id="email" name="email" value={formData.email} onChange={handleChange} />
-                    {errors.email && <ErrorMessage>{errors.email}</ErrorMessage>}
-                </div>
-                <div>
-                    <Label htmlFor="message">Сообщение:</Label>
-                    <Textarea id="message" name="message" value={formData.message} onChange={handleChange} />
-                    {errors.message && <ErrorMessage>{errors.message}</ErrorMessage>}
-                </div>
-                <Button type="submit">Отправить</Button>
-            </ContactForm>
-        </div>
+        <PageContainer>
+            <motion.div
+                initial={{rotate: -90, opacity: 0}}
+                animate={{rotate: 0, opacity: 1}}
+                exit={{rotate: 90, opacity: 0}}
+                transition={{duration: 0.5}}
+            >
+                <Title>Обратная связь</Title>
+                {isSubmitted &&
+                    <SuccessMessage>Спасибо за ваше сообщение, обратная связь очень важна для меня!</SuccessMessage>}
+                <ContactForm onSubmit={handleSubmit}>
+                    <div>
+                        <Label htmlFor="name">Имя:</Label>
+                        <Input type="text" id="name" name="name" value={formData.name} onChange={handleChange}/>
+                        {errors.name && <ErrorMessage>{errors.name}</ErrorMessage>}
+                    </div>
+                    <div>
+                        <Label htmlFor="email">Email:</Label>
+                        <Input type="email" id="email" name="email" value={formData.email} onChange={handleChange}/>
+                        {errors.email && <ErrorMessage>{errors.email}</ErrorMessage>}
+                    </div>
+                    <div>
+                        <Label htmlFor="message">Сообщение:</Label>
+                        <Textarea id="message" name="message" value={formData.message} onChange={handleChange}/>
+                        {errors.message && <ErrorMessage>{errors.message}</ErrorMessage>}
+                    </div>
+                    <Button type="submit">Отправить</Button>
+                </ContactForm>
+            </motion.div>
+        </PageContainer>
+
     );
 };
 

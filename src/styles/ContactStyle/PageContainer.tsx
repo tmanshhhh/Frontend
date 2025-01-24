@@ -2,13 +2,17 @@ import styled from "styled-components";
 import { media } from "@ styles/media";
 
 export const PageContainer = styled.div`
-    display: flex;
-    flex-direction: row;
-    padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
     min-width: 73.5rem;
-   
+    min-height: 86vh;
+
+
     background-color: ${(props) => props.theme.background};
     color: ${(props) => props.theme.color};
+    
     @media ${media.mobile} {
         padding: 10px;
         font-size: 14px;

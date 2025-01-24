@@ -1,13 +1,12 @@
 import styled from 'styled-components';
 
 export const Filter = styled.div`
-    margin-left: 75px;
+    margin-left: 55px;
     display: flex;
     flex-direction: row;
     align-items: center;
-    min-width: 65rem;
+    min-width: 45rem;
     height: 30px;
-    margin-bottom: 20px;
     padding: 20px;
     border: 1px solid #130d0f;
     border-radius: 5px;

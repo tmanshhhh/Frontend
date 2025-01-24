@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useProjectStore } from '@ store/useProjectStore';
+import { GitHubProjectStore } from '@ store/GithubProjectStore.ts';
 import { RefreshButton } from '@ styles/GithubStyle/RefreshButton.tsx'
 import { ErrorLoading } from '@ styles/GithubStyle/ErrorLoading.tsx';
 import { ProjectLanguage } from '@ styles/GithubStyle/ProjectLanguage.tsx';
@@ -9,43 +9,59 @@ import { ProjectCard } from '@ styles/GithubStyle/ProjectCard.tsx';
 import { ProjectList } from '@ styles/GithubStyle/ProjectList.tsx';
 import { Container } from '@ styles/GithubStyle/Container.tsx';
 import { ProjectLink } from '@ styles/GithubStyle/ProjectLink.tsx';
+import { motion } from 'framer-motion';
 
-export const GithubRepositories: React.FC = () => {
-    const { remoteProjects, status, error, fetchRemoteProjects } = useProjectStore();
-    const username = 'tmanshhhh';
+interface GitHubRepositoriesProps {
+    username: string;
+}
+
+export const GithubRepositories: React.FC<GitHubRepositoriesProps> = ({ username }) => {
+    const { projects: gitProjects, status, error, fetchProjects } = GitHubProjectStore();
+
     useEffect(() => {
-        fetchRemoteProjects(username);
-    }, [fetchRemoteProjects, username]);
+        fetchProjects(username);
+    }, [fetchProjects, username]);
+
+
     const handleRefresh = () => {
-        fetchRemoteProjects(username);
+        fetchProjects(username);
     };
+
     return (
         <Container>
-            {status === 'loading' && <ErrorLoading>Loading...</ErrorLoading>}
-            {status === 'failed' && <ErrorLoading>Error: {error}</ErrorLoading>}
-            {status === 'succeeded' && (
-                <>
-                    <RefreshButton onClick={handleRefresh}>Обновить</RefreshButton>
-                    <ProjectList>
-                        {remoteProjects.map((project) => (
-                            <ProjectCard key={project.id}>
-                                <ProjectTitle href={project.html_url} target="_blank">
-                                    {project.name}
-                                </ProjectTitle>
-                                <ProjectDescription>
-                                    {project.description || 'Нет описания'}
-                                </ProjectDescription>
-                                <ProjectLanguage>
-                                    Технологии: {project.language || 'Нет данных'}
-                                </ProjectLanguage>
-                                <ProjectLink href={project.html_url} target="_blank" rel="noopener noreferrer">
-                                    Ссылка на репозиторий
-                                </ProjectLink>
-                            </ProjectCard>
-                        ))}
-                    </ProjectList>
-                </>
-            )}
+            <motion.div
+                initial={{ rotate: -90, opacity: 0 }}
+                animate={{ rotate: 0, opacity: 1 }}
+                exit={{ rotate: 90, opacity: 0 }}
+                transition={{ duration: 0.5 }}
+            >
+                {status === 'loading' && <ErrorLoading>Loading...</ErrorLoading>}
+                {status === 'failed' && <ErrorLoading>Error: {error}</ErrorLoading>}
+                {status === 'succeeded' && (
+                    <>
+                        <RefreshButton onClick={handleRefresh}>Обновить</RefreshButton>
+                        <ProjectList>
+                            {gitProjects.map((project) => (
+                                <ProjectCard key={project.id}>
+                                    <ProjectTitle href={project.html_url} target="_blank">
+                                        {project.name}
+                                    </ProjectTitle>
+                                    <ProjectDescription>
+                                        {project.description || 'Нет описания'}
+                                    </ProjectDescription>
+                                    <ProjectLink href={project.html_url} target="_blank" rel="noopener noreferrer">
+                                        Ссылка на репозиторий
+                                    </ProjectLink>
+                                    <ProjectLanguage>
+                                        {}
+                                        Технологии: {project.language ?? 'Нет данных'}
+                                    </ProjectLanguage>
+                                </ProjectCard>
+                            ))}
+                        </ProjectList>
+                    </>
+                )}
+                </motion.div>
         </Container>
     );
 };

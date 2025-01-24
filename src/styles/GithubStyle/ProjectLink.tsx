@@ -7,10 +7,10 @@ export const ProjectLink = styled.a`
     font-weight: bold;
     padding: 5px 10px;
     border-radius: 20px;
-    background-color: #615050;
+    background-color: #806a6a;
     transition: background-color 0.3s;
 
     &:hover {
-        background-color: #130d0f;
+        background-color: #615050;
     }
 `;

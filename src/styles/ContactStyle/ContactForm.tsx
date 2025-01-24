@@ -4,14 +4,9 @@ export const ContactForm = styled.form`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: 1021px;
-    height: 450px;
-    margin-left: 75px;
-    margin-right: 55px;
-    margin-top: -30px;
+    width: 50rem;
     padding: 20px;
-    border: 2px solid #302727;
-    background-color: #f7f5f1;
+    border: 2px solid #806a6a;
 `;
 
 export const Title = styled.p`
@@ -20,6 +15,6 @@ export const Title = styled.p`
     letter-spacing: 0.1rem;
     margin-top: 20px;
     font-weight: bold;
-    color: #23181c;
+    color: #806a6a;
     font-family: Arial Narrow, sans-serif;
 `;

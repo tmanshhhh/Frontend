@@ -1,11 +1,11 @@
 import styled from "styled-components";
 
 export const TechFilter = styled.select`
-    margin-top: 50px;
-    margin-left: 75px;
-    margin-bottom: 10px;
-    left: 75px;
+    margin-top: 30px;
+    margin-left: 55px;
+    margin-bottom: 20px;
     padding: 5px 25px;
+    max-width: 15rem;
     background-color: #615050;
     font-size: 1.2em;
     font-family: Arial Narrow, sans-serif;

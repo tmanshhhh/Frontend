@@ -6,6 +6,6 @@ export const Subtitle = styled.p`
     letter-spacing: 0.1rem;
     font-weight: bold;
     margin-top: -10px;
-    color: #302727;
+    color: #806a6a;
     font-family: Arial Narrow, sans-serif;
 `;
