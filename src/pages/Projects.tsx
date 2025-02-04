@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { projects } from "@/data/projects.ts";
 import {PageContainer} from "@/styles/ProjectsStyle/PageContainer.tsx"
 import { Card } from "@/styles/ProjectsStyle/Card.tsx";
@@ -12,14 +12,22 @@ import { TechFilter } from '@ styles/ProjectsStyle/TechFilter.tsx';
 
 export const Projects: React.FC = () => {
     const [selectedTech, setSelectedTech] = useState<string>('All');
-    const filteredProjects = projects.filter((project) =>
-        selectedTech === 'All' ? true : project.technologies.includes(selectedTech)
-    );
+
+    const filteredProjects = useMemo(() => {
+        return projects.filter((project) =>
+            selectedTech === 'All' ? true : project.technologies.includes(selectedTech)
+        );
+    }, [selectedTech]);
+
+    const uniqueTechnologies = useMemo(() => {
+        return Array.from(new Set(projects.flatMap((project) => project.technologies)));
+    }, []);
+
     return (
         <div>
             <TechFilter value={selectedTech} onChange={(e) => setSelectedTech(e.target.value)}>
                 <option value="All">Все технологии</option>
-                {Array.from(new Set(projects.flatMap((project) => project.technologies))).map((tech) => (
+                {uniqueTechnologies.map((tech) => (
                     <option key={tech} value={tech}>
                         {tech}
                     </option>
@@ -42,6 +50,6 @@ export const Projects: React.FC = () => {
                     </Card>
                 ))}
             </PageContainer>
-            </div>
+        </div>
     );
 };
