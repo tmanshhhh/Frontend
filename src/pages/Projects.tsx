@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { useProjectStore } from "@/store/useProjectStore.ts";
 import { ProjectForm } from "@/projectComponents/ProjectForm.tsx";
 import { ProjectList } from "@/projectComponents/ProjectList.tsx";
@@ -9,9 +9,15 @@ export const ProjectComponent: React.FC = () => {
     const [selectedTech, setSelectedTech] = useState<string>(ALL_TECH);
     const { projects, addProject, deleteProject } = useProjectStore();
 
-    const filteredProjects = projects.filter((project) => selectedTech === ALL_TECH || project.technologies.includes(selectedTech));
+    const filteredProjects = useMemo(
+        () => projects.filter((project) => selectedTech === ALL_TECH || project.technologies.includes(selectedTech)),
+        [projects, selectedTech]
+    );
 
-    const uniqueTechnologies = Array.from(new Set(projects.flatMap((project) => project.technologies)));
+    const uniqueTechnologies = useMemo(
+        () => Array.from(new Set(projects.flatMap((project) => project.technologies))),
+        [projects]
+    );
 
     return (
         <div>
