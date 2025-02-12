@@ -1,55 +1,29 @@
-import React, { useState, useMemo } from 'react';
-import { projects } from "@/data/projects.ts";
-import {PageContainer} from "@/styles/ProjectsStyle/PageContainer.tsx"
-import { Card } from "@/styles/ProjectsStyle/Card.tsx";
-import { ProjectTitle } from "@/styles/ProjectsStyle/ProjectTitle.tsx";
-import { ProjectDescription } from "@/styles/ProjectsStyle/ProjectDescription.tsx";
-import { ProjectImage } from '@ styles/ProjectsStyle/ProjectImage.tsx';
-import { ProjectTechnologies } from '@ styles/ProjectsStyle/ProjectTechnologies.tsx';
-import { TechnologyItem } from '@ styles/ProjectsStyle/TechnologyItem.tsx';
-import { ProjectLink } from '@ styles/ProjectsStyle/ProjectLink.tsx';
-import { TechFilter } from '@ styles/ProjectsStyle/TechFilter.tsx';
+import React, { useState, useMemo } from "react";
+import { useProjectStore } from "@/store/useProjectStore.ts";
+import { ProjectForm } from "@/projectComponents/ProjectForm.tsx";
+import { ProjectList } from "@/projectComponents/ProjectList.tsx";
+import { ProjectFilters } from "@/projectComponents/ProjectFilters.tsx";
+import { ALL_TECH } from "@/projectComponents/projectUtils.ts";
 
-export const Projects: React.FC = () => {
-    const [selectedTech, setSelectedTech] = useState<string>('All');
+export const ProjectComponent: React.FC = () => {
+    const [selectedTech, setSelectedTech] = useState<string>(ALL_TECH);
+    const { projects, addProject, deleteProject } = useProjectStore();
 
-    const filteredProjects = useMemo(() => {
-        return projects.filter((project) =>
-            selectedTech === 'All' ? true : project.technologies.includes(selectedTech)
-        );
-    }, [selectedTech]);
+    const filteredProjects = useMemo(
+        () => projects.filter((project) => selectedTech === ALL_TECH || project.technologies.includes(selectedTech)),
+        [projects, selectedTech]
+    );
 
-    const uniqueTechnologies = useMemo(() => {
-        return Array.from(new Set(projects.flatMap((project) => project.technologies)));
-    }, []);
+    const uniqueTechnologies = useMemo(
+        () => Array.from(new Set(projects.flatMap((project) => project.technologies))),
+        [projects]
+    );
 
     return (
         <div>
-            <TechFilter value={selectedTech} onChange={(e) => setSelectedTech(e.target.value)}>
-                <option value="All">Все технологии</option>
-                {uniqueTechnologies.map((tech) => (
-                    <option key={tech} value={tech}>
-                        {tech}
-                    </option>
-                ))}
-            </TechFilter>
-            <PageContainer>
-                {filteredProjects.map((project) => (
-                    <Card key={project.id}>
-                        <ProjectImage src={project.imageUrl} alt={project.title} />
-                        <ProjectTitle>{project.title}</ProjectTitle>
-                        <ProjectDescription>{project.description}</ProjectDescription>
-                        <ProjectTechnologies>
-                            {project.technologies.map((tech) => (
-                                <TechnologyItem key={tech}>{tech}</TechnologyItem>
-                            ))}
-                        </ProjectTechnologies>
-                        <ProjectLink href={project.link} target="_blank" rel="noopener noreferrer">
-                            Ссылка
-                        </ProjectLink>
-                    </Card>
-                ))}
-            </PageContainer>
+            <ProjectFilters selectedTech={selectedTech} setSelectedTech={setSelectedTech} technologies={uniqueTechnologies} />
+            <ProjectForm addProject={addProject} />
+            <ProjectList projects={filteredProjects} deleteProject={deleteProject} />
         </div>
     );
 };
