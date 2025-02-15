@@ -1,13 +1,21 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
-import { Project } from '@ types/Project.ts';
-import { projects as initialProjects } from '@ data/projects.ts';
-import { fetchRepos, Projects } from '@ services/githubService.ts';
+import { Project } from '@/types/Project.ts';
+import { projects as initialProjects } from '@/data/projects.ts';
+import { fetchRepos } from '@ services/githubService.ts';
 import { validateUrl } from "@/projectComponents/projectUtils.ts";
+
+interface RemoteProject {
+    id: number;
+    name: string;
+    description: string | null;
+    html_url: string;
+    language: string | null;
+}
 
 interface ProjectState {
     projects: Project[];
-    remoteProjects: Projects[];
+    remoteProjects: RemoteProject[];
     addProject: (project: Project) => void;
     deleteProject: (id: string) => void;
     updateProject: (updatedProject: Project) => void;
@@ -23,7 +31,7 @@ const isValidProject = (project: Project): boolean => {
         project.link.trim().length > 0 &&
         validateUrl(project.link) &&
         Array.isArray(project.technologies) &&
-        project.technologies.every((tech) => typeof tech === "string" && tech.trim().length > 0)
+        project.technologies.every((tech) => typeof tech === 'string' && tech.trim().length > 0)
     );
 };
 
@@ -34,11 +42,19 @@ export const useProjectStore = create(
             remoteProjects: [],
             status: 'idle',
             error: null,
+
             addProject: (project: Project): void => {
                 if (!isValidProject(project)) {
-                    console.error("Ошибка: проект содержит некорректные данные.");
+                    console.error('Ошибка: проект содержит некорректные данные.');
                     return;
                 }
+
+                const existingProject = get().projects.find(p => p.title === project.title);
+                if (existingProject) {
+                    console.error('Ошибка: проект с таким названием уже существует.');
+                    return;
+                }
+
                 set((state) => ({ projects: [...state.projects, project] }));
             },
 
@@ -50,7 +66,7 @@ export const useProjectStore = create(
 
             updateProject: (updatedProject: Project): void => {
                 if (!isValidProject(updatedProject)) {
-                    console.error("Ошибка: обновленный проект содержит некорректные данные.");
+                    console.error('Ошибка: обновленный проект содержит некорректные данные.');
                     return;
                 }
                 set((state) => ({
@@ -62,23 +78,25 @@ export const useProjectStore = create(
 
             getProjectById: (id: string): Project | undefined => {
                 return get().projects.find((project) => project.id === id);
-              
+            },
+
             fetchRemoteProjects: async (username: string, token?: string) => {
                 set({ status: 'loading', error: null });
                 try {
                     const fetchedProjects = await fetchRepos(username, token);
                     set({ remoteProjects: fetchedProjects, status: 'succeeded' });
                 } catch (error: unknown) {
+                    console.error('Ошибка при загрузке удаленных проектов:', error);
                     if (error instanceof Error) {
                         set({ status: 'failed', error: error.message });
                     } else {
-                        set({ status: 'failed', error: 'An unknown error occurred.' });
+                        set({ status: 'failed', error: 'Произошла неизвестная ошибка.' });
                     }
                 }
             },
         }),
         {
-            name: "project-store",
+            name: 'project-store',
         }
     )
 );
