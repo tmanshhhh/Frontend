@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { GitHubProjectStore } from '@ store/GithubProjectStore.ts';
 import { RefreshButton } from '@ styles/GithubStyle/RefreshButton.tsx'
 import { ErrorLoading } from '@ styles/GithubStyle/ErrorLoading.tsx';
@@ -15,17 +15,22 @@ interface GitHubRepositoriesProps {
     username: string;
 }
 
+enum FetchStatus {
+    LOADING = 'loading',
+    FAILED = 'failed',
+    SUCCEEDED = 'succeeded',
+}
+
 export const GithubRepositories: React.FC<GitHubRepositoriesProps> = ({ username }) => {
     const { projects: gitProjects, status, error, fetchProjects } = GitHubProjectStore();
 
-    useEffect(() => {
+    const loadProjects = useCallback(() => {
         fetchProjects(username);
     }, [fetchProjects, username]);
 
-
-    const handleRefresh = () => {
-        fetchProjects(username);
-    };
+    useEffect(() => {
+        loadProjects();
+    }, [loadProjects]);
 
     return (
         <Container>
@@ -35,33 +40,36 @@ export const GithubRepositories: React.FC<GitHubRepositoriesProps> = ({ username
                 exit={{ rotate: 90, opacity: 0 }}
                 transition={{ duration: 0.5 }}
             >
-                {status === 'loading' && <ErrorLoading>Loading...</ErrorLoading>}
-                {status === 'failed' && <ErrorLoading>Error: {error}</ErrorLoading>}
-                {status === 'succeeded' && (
+                {status === FetchStatus.LOADING && <ErrorLoading>Loading...</ErrorLoading>}
+                {status === FetchStatus.FAILED && <ErrorLoading>Error: {error}</ErrorLoading>}
+                {status === FetchStatus.SUCCEEDED && (
                     <>
-                        <RefreshButton onClick={handleRefresh}>Обновить</RefreshButton>
-                        <ProjectList>
-                            {gitProjects.map((project) => (
-                                <ProjectCard key={project.id}>
-                                    <ProjectTitle href={project.html_url} target="_blank">
-                                        {project.name}
-                                    </ProjectTitle>
-                                    <ProjectDescription>
-                                        {project.description || 'Нет описания'}
-                                    </ProjectDescription>
-                                    <ProjectLink href={project.html_url} target="_blank" rel="noopener noreferrer">
-                                        Ссылка на репозиторий
-                                    </ProjectLink>
-                                    <ProjectLanguage>
-                                        {}
-                                        Технологии: {project.language ?? 'Нет данных'}
-                                    </ProjectLanguage>
-                                </ProjectCard>
-                            ))}
-                        </ProjectList>
+                        <RefreshButton onClick={loadProjects}>Обновить</RefreshButton>
+                        {gitProjects.length === 0 ? (
+                            <ErrorLoading>Нет доступных репозиториев</ErrorLoading>
+                        ) : (
+                            <ProjectList>
+                                {gitProjects.map((project) => (
+                                    <ProjectCard key={project.id}>
+                                        <ProjectTitle href={project.html_url} target="_blank">
+                                            {project.name}
+                                        </ProjectTitle>
+                                        <ProjectDescription>
+                                            {project.description || 'Нет описания'}
+                                        </ProjectDescription>
+                                        <ProjectLanguage>
+                                            Технологии: {project.language ?? 'Нет данных'}
+                                        </ProjectLanguage>
+                                        <ProjectLink href={project.html_url} target="_blank" rel="noopener noreferrer">
+                                            Ссылка на репозиторий
+                                        </ProjectLink>
+                                    </ProjectCard>
+                                ))}
+                            </ProjectList>
+                        )}
                     </>
                 )}
-                </motion.div>
+            </motion.div>
         </Container>
     );
 };

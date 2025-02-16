@@ -1,4 +1,3 @@
-import React from "react";
 import {HeaderContainer} from '@ styles/HeaderStyle/HeaderContainer.tsx';
 import {Nav} from '@ styles/HeaderStyle/Nav.tsx';
 import {LinkStyle} from '@ styles/HeaderStyle/LinkStyle.tsx';
