@@ -1,8 +1,8 @@
 import { v4 as uuidv4 } from 'uuid';
-import { Project } from '@/types/Project';
-import web_project from '@/assets/web_project.png';
-import comp_numb_project from '@/assets/comp_numb_project.png';
-import naruto_project from '@/assets/naruto_project.png';
+import { Project } from '@ types/Project';
+import web_project from '@ assets/web_project.png';
+import comp_numb_project from '@ assets/comp_numb_project.png';
+import naruto_project from '@ assets/naruto_project.png';
 
 const initialProjectsData = [
     {

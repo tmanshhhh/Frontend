@@ -5,7 +5,7 @@ export const Filter = styled.div`
     display: flex;
     flex-direction: row;
     align-items: center;
-    width: 85%;
+    min-width: 65rem;
     height: 30px;
     margin-bottom: 20px;
     padding: 20px;
