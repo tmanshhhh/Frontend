@@ -12,6 +12,7 @@ import {SkillItem} from "@ styles/SkillsStyle/SkillItem.tsx";
 import {SkillImage} from "@ styles/SkillsStyle/SkillImage.tsx";
 import {SkillName} from "@ styles/SkillsStyle/SkillName.tsx";
 import { motion } from 'framer-motion';
+import {ANIMATION_SETTINGS} from "@/styles/AnimationSettings/MotionSettings.tsx";
 
 export const Skills: React.FC = () => {
     const skillsData = [
@@ -28,12 +29,8 @@ export const Skills: React.FC = () => {
 
     return (
         <PageContainer>
-            <motion.div
-                initial={{ rotate: -90, opacity: 0 }}
-                animate={{ rotate: 0, opacity: 1 }}
-                exit={{ rotate: 90, opacity: 0 }}
-                transition={{ duration: 0.5 }}
-            >
+            <motion.div {...ANIMATION_SETTINGS}>
+
                 {skillsData.map((skill) => (
                     <SkillItem key={skill.name}>
                         <SkillImage src={skill.image} alt={skill.name}/>

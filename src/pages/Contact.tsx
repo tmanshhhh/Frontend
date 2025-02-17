@@ -9,7 +9,7 @@ import {ErrorMessage} from "@ styles/ContactStyle/ErrorMessage.tsx";
 import {SuccessMessage} from "@ styles/ContactStyle/SuccessMessage.tsx";
 import { PageContainer } from "@ styles/ContactStyle/PageContainer.tsx"
 import { motion } from 'framer-motion';
-
+import {ANIMATION_SETTINGS} from "@/styles/AnimationSettings/MotionSettings.tsx";
 
 interface FormData {
     name: string;
@@ -99,12 +99,8 @@ export const Contact: React.FC = () => {
 
     return (
         <PageContainer>
-            <motion.div
-                initial={{rotate: -90, opacity: 0}}
-                animate={{rotate: 0, opacity: 1}}
-                exit={{rotate: 90, opacity: 0}}
-                transition={{duration: 0.5}}
-            >
+            <motion.div {...ANIMATION_SETTINGS}>
+
                 <Title>{MESSAGES.title}</Title>
                 {isSubmitted && <SuccessMessage>{MESSAGES.success}</SuccessMessage>}
                 {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}

@@ -4,17 +4,12 @@ import {Title} from "@ styles/AboutStyle/Title.tsx";
 import {Text} from "@ styles/AboutStyle/Text.tsx";
 import {Subtitle} from "@ styles/AboutStyle/Subtitle.tsx";
 import { motion } from 'framer-motion';
-
+import {ANIMATION_SETTINGS} from "@/styles/AnimationSettings/MotionSettings.tsx";
 
 export const About: React.FC = () => {
     return (
         <PageContainer>
-            <motion.div
-                initial={{ rotate: -90, opacity: 0 }}
-                animate={{ rotate: 0, opacity: 1 }}
-                exit={{ rotate: 90, opacity: 0 }}
-                transition={{ duration: 0.5 }}
-            >
+            <motion.div {...ANIMATION_SETTINGS}>
                 <Title>Обо мне</Title>
                 <Card>
                     <Subtitle>Образование:</Subtitle>

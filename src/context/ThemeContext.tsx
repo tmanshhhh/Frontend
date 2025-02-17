@@ -5,13 +5,16 @@ type Theme = "light" | "dark";
 
 interface ThemeContextProps {
     theme: Theme;
-    toggleTheme: () => void;
+    toggleTheme?: () => void;
 }
 
 const ThemeContext = createContext<ThemeContextProps>({
     theme: "light",
-    toggleTheme: () => {},
+    toggleTheme: undefined,
 });
+
+const THEME_LIGHT = "light";
+const THEME_DARK = "dark";
 
 const lightTheme: DefaultTheme = {
     background: "#f7f5f1",
@@ -24,13 +27,13 @@ const darkTheme: DefaultTheme = {
 };
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const [theme, setTheme] = useState<Theme>("light");
+    const [theme, setTheme] = useState<Theme>(THEME_LIGHT);
 
     const toggleTheme = () => {
-        setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
+        setTheme((prevTheme) => (prevTheme === THEME_LIGHT ? THEME_DARK : THEME_LIGHT));
     };
 
-    const currentTheme = theme === "light" ? lightTheme : darkTheme;
+    const currentTheme = theme === THEME_LIGHT ? lightTheme : darkTheme;
 
     return (
         <ThemeContext.Provider value={{ theme, toggleTheme }}>

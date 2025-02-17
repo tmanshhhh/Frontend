@@ -4,14 +4,18 @@ import {LinkStyle} from '@ styles/HeaderStyle/LinkStyle.tsx';
 import {ThemeButton} from "@/styles/HeaderStyle/ThemeButton.tsx";
 import { useTheme } from "@/context/ThemeContext";
 
+const THEME_LIGHT = "light";
+const THEME_DARK_TEXT = "Dark";
+const THEME_LIGHT_TEXT = "Light";
 
 export const Header: React.FC = () => {
     const { toggleTheme, theme } = useTheme();
+    const isLightTheme = theme === THEME_LIGHT;
 
     return (
         <HeaderContainer>
             <ThemeButton onClick={toggleTheme}>
-                {theme === "light" ? "Dark" : "Light"}
+                {isLightTheme ? THEME_DARK_TEXT : THEME_LIGHT_TEXT}
             </ThemeButton>
             <Nav>
                 <LinkStyle to="/">Home</LinkStyle>

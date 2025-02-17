@@ -10,6 +10,7 @@ import { ProjectList } from '@ styles/GithubStyle/ProjectList.tsx';
 import { Container } from '@ styles/GithubStyle/Container.tsx';
 import { ProjectLink } from '@ styles/GithubStyle/ProjectLink.tsx';
 import { motion } from 'framer-motion';
+import {ANIMATION_SETTINGS} from "@/styles/AnimationSettings/MotionSettings.tsx";
 
 interface GitHubRepositoriesProps {
     username: string;
@@ -34,12 +35,7 @@ export const GithubRepositories: React.FC<GitHubRepositoriesProps> = ({ username
 
     return (
         <Container>
-            <motion.div
-                initial={{ rotate: -90, opacity: 0 }}
-                animate={{ rotate: 0, opacity: 1 }}
-                exit={{ rotate: 90, opacity: 0 }}
-                transition={{ duration: 0.5 }}
-            >
+            <motion.div {...ANIMATION_SETTINGS}>
                 {status === FetchStatus.LOADING && <ErrorLoading>Loading...</ErrorLoading>}
                 {status === FetchStatus.FAILED && <ErrorLoading>Error: {error}</ErrorLoading>}
                 {status === FetchStatus.SUCCEEDED && (
