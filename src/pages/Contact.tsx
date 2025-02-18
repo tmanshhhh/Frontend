@@ -7,6 +7,9 @@ import {Textarea} from "@ styles/ContactStyle/TextArea.tsx";
 import {Button} from "@ styles/ContactStyle/Button.tsx";
 import {ErrorMessage} from "@ styles/ContactStyle/ErrorMessage.tsx";
 import {SuccessMessage} from "@ styles/ContactStyle/SuccessMessage.tsx";
+import { PageContainer } from "@ styles/ContactStyle/PageContainer.tsx"
+import { motion } from 'framer-motion';
+import {ANIMATION_SETTINGS} from "@/styles/AnimationSettings/MotionSettings.tsx";
 
 interface FormData {
     name: string;
@@ -95,54 +98,58 @@ export const Contact: React.FC = () => {
     };
 
     return (
-        <div>
-            <Title>{MESSAGES.title}</Title>
-            {isSubmitted && <SuccessMessage>{MESSAGES.success}</SuccessMessage>}
-            {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-            <ContactForm onSubmit={handleSubmit}>
-                <div>
-                    <Label htmlFor="name">Имя:</Label>
-                    <Input
-                        type="text"
-                        id="name"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleChange}
-                        maxLength={MAX_LENGTHS.name}
-                        disabled={isLoading}
-                    />
-                    {errors.name && <ErrorMessage>{errors.name}</ErrorMessage>}
-                </div>
-                <div>
-                    <Label htmlFor="email">Email:</Label>
-                    <Input
-                        type="email"
-                        id="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        maxLength={MAX_LENGTHS.email}
-                        disabled={isLoading}
-                    />
-                    {errors.email && <ErrorMessage>{errors.email}</ErrorMessage>}
-                </div>
-                <div>
-                    <Label htmlFor="message">Сообщение:</Label>
-                    <Textarea
-                        id="message"
-                        name="message"
-                        value={formData.message}
-                        onChange={handleChange}
-                        maxLength={MAX_LENGTHS.message}
-                        disabled={isLoading}
-                    />
-                    {errors.message && <ErrorMessage>{errors.message}</ErrorMessage>}
-                </div>
-                <Button type="submit" disabled={isLoading}>
-                    {isLoading ? MESSAGES.submitting : MESSAGES.submit}
-                </Button>
-            </ContactForm>
-        </div>
+        <PageContainer>
+            <motion.div {...ANIMATION_SETTINGS}>
+
+                <Title>{MESSAGES.title}</Title>
+                {isSubmitted && <SuccessMessage>{MESSAGES.success}</SuccessMessage>}
+                {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+                <ContactForm onSubmit={handleSubmit}>
+                    <div>
+                        <Label htmlFor="name">Имя:</Label>
+                        <Input
+                            type="text"
+                            id="name"
+                            name="name"
+                            value={formData.name}
+                            onChange={handleChange}
+                            maxLength={MAX_LENGTHS.name}
+                            disabled={isLoading}
+                        />
+                        {errors.name && <ErrorMessage>{errors.name}</ErrorMessage>}
+                    </div>
+                    <div>
+                        <Label htmlFor="email">Email:</Label>
+                        <Input
+                            type="email"
+                            id="email"
+                            name="email"
+                            value={formData.email}
+                            onChange={handleChange}
+                            maxLength={MAX_LENGTHS.email}
+                            disabled={isLoading}
+                        />
+                        {errors.email && <ErrorMessage>{errors.email}</ErrorMessage>}
+                    </div>
+                    <div>
+                        <Label htmlFor="message">Сообщение:</Label>
+                        <Textarea
+                            id="message"
+                            name="message"
+                            value={formData.message}
+                            onChange={handleChange}
+                            maxLength={MAX_LENGTHS.message}
+                            disabled={isLoading}
+                        />
+                        {errors.message && <ErrorMessage>{errors.message}</ErrorMessage>}
+                    </div>
+                    <Button type="submit" disabled={isLoading}>
+                        {isLoading ? MESSAGES.submitting : MESSAGES.submit}
+                    </Button>
+                </ContactForm>
+            </motion.div>
+        </PageContainer>
+
     );
 };
 

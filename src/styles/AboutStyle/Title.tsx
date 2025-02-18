@@ -4,8 +4,8 @@ export const Title = styled.p`
     font-size: 3.5rem;
     text-align: center;
     letter-spacing: 0.1rem;
-    margin-top: 20px;
+    margin-top: -10px;
     font-weight: bold;
-    color: #130d0f;
+    color: #806a6a;
     font-family: Arial Narrow, sans-serif;
 `;

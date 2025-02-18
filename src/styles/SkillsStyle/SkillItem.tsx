@@ -2,7 +2,10 @@ import styled from "styled-components";
 
 export const SkillItem = styled.div`
     display: flex;
-    flex-flow: column wrap;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: space-between;
     align-items: center;
     text-align: center;
+    background-color: #535bf2;
 `;

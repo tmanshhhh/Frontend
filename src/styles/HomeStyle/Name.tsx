@@ -5,7 +5,7 @@ export const Name = styled.p`
     margin-top: 100px;
     letter-spacing: 0.1rem;
     font-weight: bold;
-    color: #302727;
+    color: #806a6a;
     font-family: Arial Narrow, sans-serif;
     text-align: center
 `;

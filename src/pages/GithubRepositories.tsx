@@ -1,5 +1,5 @@
 import React, { useEffect, useCallback } from 'react';
-import { useProjectStore } from '@ store/useProjectStore';
+import { GitHubProjectStore } from '@ store/GithubProjectStore.ts';
 import { RefreshButton } from '@ styles/GithubStyle/RefreshButton.tsx'
 import { ErrorLoading } from '@ styles/GithubStyle/ErrorLoading.tsx';
 import { ProjectLanguage } from '@ styles/GithubStyle/ProjectLanguage.tsx';
@@ -9,8 +9,12 @@ import { ProjectCard } from '@ styles/GithubStyle/ProjectCard.tsx';
 import { ProjectList } from '@ styles/GithubStyle/ProjectList.tsx';
 import { Container } from '@ styles/GithubStyle/Container.tsx';
 import { ProjectLink } from '@ styles/GithubStyle/ProjectLink.tsx';
+import { motion } from 'framer-motion';
+import {ANIMATION_SETTINGS} from "@/styles/AnimationSettings/MotionSettings.tsx";
 
-const GITHUB_USERNAME = process.env.REACT_APP_GITHUB_USERNAME || 'defaultUsername';
+interface GitHubRepositoriesProps {
+    username: string;
+}
 
 enum FetchStatus {
     LOADING = 'loading',
@@ -18,12 +22,12 @@ enum FetchStatus {
     SUCCEEDED = 'succeeded',
 }
 
-export const GithubRepositories: React.FC = () => {
-    const { remoteProjects, status, error, fetchRemoteProjects } = useProjectStore();
+export const GithubRepositories: React.FC<GitHubRepositoriesProps> = ({ username }) => {
+    const { projects: gitProjects, status, error, fetchProjects } = GitHubProjectStore();
 
     const loadProjects = useCallback(() => {
-        fetchRemoteProjects(GITHUB_USERNAME);
-    }, [fetchRemoteProjects]);
+        fetchProjects(username);
+    }, [fetchProjects, username]);
 
     useEffect(() => {
         loadProjects();
@@ -31,35 +35,37 @@ export const GithubRepositories: React.FC = () => {
 
     return (
         <Container>
-            {status === FetchStatus.LOADING && <ErrorLoading>Loading...</ErrorLoading>}
-            {status === FetchStatus.FAILED && <ErrorLoading>Error: {error}</ErrorLoading>}
-            {status === FetchStatus.SUCCEEDED && (
-                <>
-                    <RefreshButton onClick={loadProjects}>Обновить</RefreshButton>
-                    {remoteProjects.length === 0 ? (
-                        <ErrorLoading>Нет доступных репозиториев</ErrorLoading>
-                    ) : (
-                        <ProjectList>
-                            {remoteProjects.map((project) => (
-                                <ProjectCard key={project.id}>
-                                    <ProjectTitle href={project.html_url} target="_blank">
-                                        {project.name}
-                                    </ProjectTitle>
-                                    <ProjectDescription>
-                                        {project.description || 'Нет описания'}
-                                    </ProjectDescription>
-                                    <ProjectLanguage>
-                                        Технологии: {project.language || 'Нет данных'}
-                                    </ProjectLanguage>
-                                    <ProjectLink href={project.html_url} target="_blank" rel="noopener noreferrer">
-                                        Ссылка на репозиторий
-                                    </ProjectLink>
-                                </ProjectCard>
-                            ))}
-                        </ProjectList>
-                    )}
-                </>
-            )}
+            <motion.div {...ANIMATION_SETTINGS}>
+                {status === FetchStatus.LOADING && <ErrorLoading>Loading...</ErrorLoading>}
+                {status === FetchStatus.FAILED && <ErrorLoading>Error: {error}</ErrorLoading>}
+                {status === FetchStatus.SUCCEEDED && (
+                    <>
+                        <RefreshButton onClick={loadProjects}>Обновить</RefreshButton>
+                        {gitProjects.length === 0 ? (
+                            <ErrorLoading>Нет доступных репозиториев</ErrorLoading>
+                        ) : (
+                            <ProjectList>
+                                {gitProjects.map((project) => (
+                                    <ProjectCard key={project.id}>
+                                        <ProjectTitle href={project.html_url} target="_blank">
+                                            {project.name}
+                                        </ProjectTitle>
+                                        <ProjectDescription>
+                                            {project.description || 'Нет описания'}
+                                        </ProjectDescription>
+                                        <ProjectLanguage>
+                                            Технологии: {project.language ?? 'Нет данных'}
+                                        </ProjectLanguage>
+                                        <ProjectLink href={project.html_url} target="_blank" rel="noopener noreferrer">
+                                            Ссылка на репозиторий
+                                        </ProjectLink>
+                                    </ProjectCard>
+                                ))}
+                            </ProjectList>
+                        )}
+                    </>
+                )}
+            </motion.div>
         </Container>
     );
 };

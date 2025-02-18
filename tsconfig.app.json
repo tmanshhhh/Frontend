@@ -18,6 +18,7 @@
       "@ services/*": ["src/services/*"],
       "@ store/*": ["src/store/*"],
       "@ types/*": ["src/types/*"],
+      "@ context/*": ["src/context/*"],
     },
 
     /* Bundler mode */

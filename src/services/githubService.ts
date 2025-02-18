@@ -9,7 +9,7 @@ const GitHubRepoSchema = z.object({
     language: z.string().nullable(),
 });
 
-type GitHubRepo = z.infer<typeof GitHubRepoSchema>;
+export type GitProject = z.infer<typeof GitHubRepoSchema>;
 
 const GITHUB_API_URL = 'https://api.github.com';
 
@@ -27,7 +27,7 @@ apiClient.interceptors.response.use(
     }
 );
 
-export const fetchRepos = async (username: string, token?: string): Promise<GitHubRepo[]> => {
+export const fetchRepos = async (username: string, token?: string): Promise<GitProject[]> => {
     const response = await apiClient.get(`/users/${username}/repos`, {
         headers: token ? { Authorization: `token ${token}` } : {},
     });

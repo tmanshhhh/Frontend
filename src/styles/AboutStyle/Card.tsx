@@ -1,13 +1,12 @@
 import styled from "styled-components";
 
 export const Card = styled.div`
-    background-color: #f7f5f1;
     display: flex;
-    border: 2px solid #302727;
+    border: 2px solid #806a6a;
     flex-direction: column;
     padding: 20px;
     min-height: 86vh;
-    margin-left: 55px;
-    margin-right: 55px;
-    margin-top: -30px;
+    width: 90%;
+    margin-left: 50px;
+
 `;
